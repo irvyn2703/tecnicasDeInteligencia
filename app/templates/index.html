@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es_MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="d-flex justify-content-around">
+        <div class="w-50">
+            <div class="w-100">
+            </div>
+            <div>
+                <img src="{{ url_for('static', filename='img/imageGrafica2.png') }}" alt="{{ url_for('static', filename='img/grafica.jpeg') }}" class="w-auto">
+                <div class="d-flex justify-content-between p-2">
+                    <h3>reconocimiento: {{data.reconocimiento}} %</h3>
+                    <h3>generalizacion: {{data.generalizacion}} %</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center w-50 m-5">
+            <h1>GRAFICACIÓN DEL PERCEPTRÓN</h1>
+            <form id="procesar" method="get" action="/procesar">
+                    <div class="p-3">
+                        <h5>area A:</h5>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">punto 1x</label>
+                                <input type="number" class="form-control" name="p1x" id="p1x" min="-10" max="10" value="{{data.px1}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 1y</label>
+                                <input type="number" class="form-control" name="p1y" id="p1y" min="-10" max="10" value="{{data.py1}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 2x</label>
+                                <input type="number" class="form-control" name="p2x" id="p2x" min="-10" max="10" value="{{data.px2}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 2y</label>
+                                <input type="number" class="form-control" name="p2y" id="p2y" min="-10" max="10" value="{{data.py2}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h5>area B:</h5>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">punto 1x</label>
+                                <input type="number" class="form-control" name="p3x" id="p3x" min="-10" max="10" value="{{data.px3}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 1y</label>
+                                <input type="number" class="form-control" name="p3y" id="p3y" min="-10" max="10" value="{{data.py3}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 2x</label>
+                                <input type="number" class="form-control" name="p4x" id="p4x" min="-10" max="10" value="{{data.px4}}" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">punto 2y</label>
+                                <input type="number" class="form-control" name="p4y" id="p4y" min="-10" max="10" value="{{data.py4}}" required>
+                            </div>
+                        </div>
+                    </div>
+                <div class="m-3">
+                    <div class="d-flex justify-content-between p-2">
+                        <h5>Numero de fronteras a graficar:</h5>
+                        <select class="form-select w-25" name="numFronteras" aria-label="Default select example" required>
+                            <option value="2" {% if data.numFronteras == 2 %}selected{% endif %}>2</option>
+                            <option value="4" {% if data.numFronteras == 4 %}selected{% endif %}>4</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-between p-2">
+                        <h5>numero de epocas: </h5>
+                        <input type="number" step="1" class="form-control w-25" name="numEpocas" id="numCapas" value="{{data.numEpocas}}" required>
+                    </div>
+                    <div class="d-flex justify-content-between p-2">
+                        <h5>intervalo minimo</h5>
+                        <input type="number" class="form-control w-25" name="interMin" id="interMin" min="0" max="1" step="0.0001" value="{{data.interMin}}" required>
+                    </div>
+                    <div class="d-flex justify-content-between p-2">
+                        <label>
+                            <h5>intervalo maximo</h5>
+                        </label>
+                        <input type="number" class="form-control w-25" name="interMax" id="interMax" min="0" max="1" step="0.0001" value="{{data.interMax}}" required>
+                    </div>
+                    <div class="d-flex justify-content-between p-2">
+                        <h5>learning</h5>
+                        <input type="number" class="form-control w-25" name="learning" id="learning" min="0" max="1" step="0.0001" value="{{data.learning}}" required>
+                    </div>
+                    <div class="d-flex p-2 justify-content-between">
+                        <h5 class="form-label">numero de patrones</h5>
+                        <input type="number" name="N" id="N" value="{{data.N}}" min="2" step="1" class="form-control w-25" required>
+                    </div>
+                    <!-- Campos para ingresar patrones -->
+                    <hr>
+                    <h3>Patrones</h3>
+                    <div>
+                        <label class="form-label">patrones aleatorios</label>
+                        <input type="checkbox" name="aleatorios" id="aleatorios" {% if data.aleatorios %}checked{% endif %}>
+                    </div>                    
+                    <!-- Contenedor para campos de coordenadas (se agregan dinámicamente) -->
+                    <div id="coordinateFields">
+                        <!-- Campos de coordenadas se agregarán aquí por JavaScript -->
+                    </div>
+                </div>
+                <button id="enviarBoton" class="btn btn-outline-success" type="submit">Graficar</button>
+            </form>   
+        </div>
+    </div>
+    
+    <!-- js -->
+    <script>
+        // Definir la variable y asignarle los datos de data.puntosUser
+        var puntosUserData = {{ data.puntosUser | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}?v={{ random_number }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
